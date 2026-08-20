@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# Update: 2021 : Adel Noureddine (Python 3 support and fix 'b' characters in data reception)
 # Copyright (c) 2014 Patrick Marlier <patrick.marlier@gmail.com>
 # Copyright (c) 2014 Mascha Kurpicz <mascha.kurpicz@gmail.com>
 #                    University of Neuchatel, Switzerland
@@ -18,8 +19,7 @@
 #
 # You should have received a copy of the Lesser GNU Lesser General Public License
 # along with powerspy.py.  If not, see <http://www.gnu.org/licenses/>.
-from influxdb import InfluxDBClient
-from datetime import datetime
+
 import logging
 import bluetooth
 import struct  # conversion of type
@@ -29,6 +29,8 @@ import signal  # signal handler
 import sys     # system exit
 import time    # sleep/time
 import errno   # IOError numbers
+import codecs  # for hex decoder
+import csv     # for csv writer
 
 # All powerspy commands
 CMD_ID = '?'
@@ -64,6 +66,8 @@ running = True
 DEFAULT_TIMEOUT = 3.0 # secs (float allowed, timeout to receive response from PowerSpy, except in realtime mode)
 DEFAULT_INTERVAL = 1.0 # secs (float allowed, interval between each output)
 
+decode_hex = codecs.getdecoder("hex_codec")
+
 class PowerSpy:
   def __init__ (self):
     self.sock = None
@@ -77,26 +81,6 @@ class PowerSpy:
     self.uscale_current = self.iscale_current = self.pscale_current = None
     self.frequency = None
     self.max_avg_period = None
-
-  def get_nodename(self, address):
-    switch = {
-      "00:06:66:4D:F4:C6": "scopi",
-      "00:06:66:4D:F5:F3": "nuc"
-    }
-    return switch.get(address, None)
-
-  def get_json(self, nodename, timestamp, power):
-    json_body = [{
-        "measurement": "power/node_utilization",
-        "tags": {
-            "nodename": nodename,
-        },
-        "time": timestamp,
-        "fields": {
-            "value": power
-        }
-    }]
-    return json_body
 
   def connect(self, address):
     if self.sock != None:
@@ -142,7 +126,7 @@ class PowerSpy:
           logging.warning("Maybe timeout? %s" % err)
           break
       # FIXME what to do for multiple message? keep it in buffer...
-      buf = "%s%s" % (buf,r)
+      buf = "%s%s" % (buf,r.decode())
       mat = re.search('<(.*)>', buf, re.MULTILINE)
       if mat:
         buf = mat.group(1)
@@ -181,7 +165,7 @@ class PowerSpy:
       val += self.recvCmd(4)
     # Format 32 bits, REAL4
     # < indicates little-endian encoding
-    f = struct.unpack('<f', val.decode("hex"))
+    f = struct.unpack('<f', decode_hex(val)[0])
     return f[0]
 
   # Factory correction voltage coefficient
@@ -215,7 +199,7 @@ class PowerSpy:
   def get_frequency(self):
     self.sendCmd(CMD_FREQUENCY)
     f = self.recvCmd(7)
-    f = struct.unpack('>H', f[1:].decode("hex"))
+    f = struct.unpack('>H', decode_hex(f[1:])[0])
     if self.hw_version == "02":
       self.frequency = 1000000.0 / f[0]
     else:
@@ -318,7 +302,7 @@ class PowerSpy:
     # convert string to values
     conv = []
     for i in range(5):
-      hexa = values[i].decode("hex")
+      hexa = decode_hex(values[i])[0]
       if len(hexa) == 2:
         fmt = '>H'
       elif len(hexa) == 4:
@@ -359,7 +343,7 @@ class PowerSpy:
 
   # Display measurements every interval (sec) for the specified duration (sec)
   # If interval is higher than the PowerSpy device capacity, it will be an average of the averaged PowerSpy measurements
-  def rt_capture(self, address, interval = 1.0, duration = 0.0):
+  def rt_capture(self, interval = 1.0, duration = 0.0, file_path = "output.csv"):
     if not self.acquisition_start():
       logging.error('Acquisition failed')
       return
@@ -383,39 +367,44 @@ class PowerSpy:
     powers = []
     pvoltages = []
     pcurrents = []
-    try:
-      client = InfluxDBClient('localhost', 8086, 'root', 'root', 'power')
-      while (running and (duration == 0.0 or time.time() < endsat)):
-        voltage, current, power, pvoltage, pcurrent = self.rt_read()
-        # TODO should we check if rt_read returns [0,0,0,0,0] or None?
-        if every != 0:
-          voltages.append(voltage)
-          currents.append(current)
-          powers.append(power)
-          pvoltages.append(pvoltage)
-          pcurrents.append(pcurrent)
-          if len(voltages) != every:
-            continue
-          voltage = sum(voltages) / float(len(voltages))
-          current = sum(currents) / float(len(currents))
-          power = sum(powers) / float(len(powers))
-          pvoltage = max(pvoltages)
-          pcurrent = max(pcurrents)
-          voltages = []
-          currents = []
-          powers = []
-          pvoltages = []
-          pcurrents = []
- 
-        json_body = self.get_json(self.get_nodename(address), datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'), power) 
-        client.write_points(json_body)
-        #print(time.time(),self.get_nodename(address), power)
-        #print("%0.3f\t%0.3f\t%0.3f\t%0.3f\t%0.3f\t%0.3f" % (time.time(), voltage, current, power, pvoltage, pcurrent))
-    except Exception as e:
-      logging.error("Realtime capture failed (%s)" % e)
-    finally:
-      self.rt_stop()
-      self.acquisition_stop()
+    with open(file_path, mode='w', newline='') as csv_file:
+      fieldnames = ["timestamp", "V", "A", "W","pV", "pA"]
+      csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+      csv_writer.writeheader()
+      try:
+        while (running and (duration == 0.0 or time.time() < endsat)):
+          voltage, current, power, pvoltage, pcurrent = self.rt_read()
+          # TODO should we check if rt_read returns [0,0,0,0,0] or None?
+          if every != 0:
+            voltages.append(voltage)
+            currents.append(current)
+            powers.append(power)
+            pvoltages.append(pvoltage)
+            pcurrents.append(pcurrent)
+            if len(voltages) != every:
+              continue
+            voltage = sum(voltages) / float(len(voltages))
+            current = sum(currents) / float(len(currents))
+            power = sum(powers) / float(len(powers))
+            pvoltage = max(pvoltages)
+            pcurrent = max(pcurrents)
+            voltages = []
+            currents = []
+            powers = []
+            pvoltages = []
+            pcurrents = []
+
+          csv_writer.writerow({"timestamp": "%.3f" % time.time(), "V": voltage, "A": current, "W": power,"pV": pvoltage, "pA": pcurrent})
+
+          print("%0.3f\t%0.3f\t%0.3f\t%0.3f\t%0.3f\t%0.3f" % (time.time(), voltage, current, power, pvoltage, pcurrent))
+
+      except Exception as e:
+        logging.error("Realtime capture failed (%s)" % e)
+        csv_file.flush()
+      finally:
+        csv_file.flush()
+        self.rt_stop()
+        self.acquisition_stop()
 
 # Signal handler to exit properly on SIGINT
 def exit_gracefully(signal, frame):
@@ -427,10 +416,11 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='Alciom PowerSpy reader.')
   # TODO can add mac address checker and normalizer
   parser.add_argument('device_mac', metavar='MAC', help='MAC address of the PowerSpy device.')
-  parser.add_argument('-v', '--verbose', action='count', help='Verbose mode.')
+  parser.add_argument('-v', '--verbose', action='count', default=0, help='Verbose mode.')
   parser.add_argument('-i', '--interval', type=float, default=1.0, help='Interval between each measurement.')
   parser.add_argument('-t', '-d', '--time', '--duration', type=float, default=0.0, help='Duration of execution (seconds). 0 means running indefinitely.')
   parser.add_argument('-T', '--timeout', type=float, default=0.0, help='Maxiumum duration to get an answer from the device (seconds).')
+  parser.add_argument('-f', '--file', type=str, default="output.csv", help='CSV output file')
   # in case of release
   #parser.add_argument('--version', action='version', version='%(prog)s unreleased')
   args = parser.parse_args()
@@ -460,6 +450,6 @@ if __name__ == '__main__':
     print("Device cannot be initialized")
     sys.exit(1)
 
-  dev.rt_capture(args.device_mac, args.interval, args.time)
+  dev.rt_capture(args.interval, args.time, args.file)
 
   dev.close()
