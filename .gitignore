@@ -1,6 +1,7 @@
 *.DS_Store
 results_tar
 powerjoular
+powerjoular_output
 alto
 rundler
 output
