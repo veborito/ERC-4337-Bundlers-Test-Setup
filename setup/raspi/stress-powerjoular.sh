@@ -6,7 +6,7 @@ if [ ! -d "./powerjoular_output" ]; then
 	mkdir ./powerjoular_output
 fi
 
-cd powerjoular_out
+cd powerjoular_output
 
 for i in {1..4}; do
 	stress-ng --cpu "$i" --timeout 180 &
