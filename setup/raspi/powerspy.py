@@ -395,6 +395,7 @@ class PowerSpy:
             pcurrents = []
 
           csv_writer.writerow({"timestamp": "%.3f" % time.time(), "V": voltage, "A": current, "W": power,"pV": pvoltage, "pA": pcurrent})
+          csv_file.flush()
 
           print("%0.3f\t%0.3f\t%0.3f\t%0.3f\t%0.3f\t%0.3f" % (time.time(), voltage, current, power, pvoltage, pcurrent))
 
