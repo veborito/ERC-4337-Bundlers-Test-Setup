@@ -33,3 +33,7 @@ go into powerexp/alto folder and build the image with bash```docker build --no-c
 To build rundler image:
 - clone v0.11.0 of rundler repository:  https://github.com/alchemyplatform/rundler.git
 - then run bash```docker buildx build . -t rundler```
+
+## UserOps
+
+On your client machine, don't forget to change the endpoints of your bundler and EVM node in transferUserOpRoundsThrottled.ts.
