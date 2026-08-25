@@ -19,14 +19,21 @@ else
 	exit 1
 fi
 
+echo "Successfully started $BUNDLER..."
+
 cd .. && source .venv/bin/activate
 
-./powerspy.py -i 1 -f "./bundlers_tests/output/powerspy-$OUTPUT_FILE.csv" "$MAC_ADDRESS" &
+./powerspy.py -i 1 -f "./bundlers_tests/output/powerspy-$OUTPUT_FILE.csv" "$MAC_ADDRESS" > /dev/null 2>&1 &
 powerspy_pid="$!" 
+deactivate && cd bundlers_tests/output
 echo "$powerspy_pid" >> pids.txt
-deactivate && cd bundlers_tests
 
-powerjoular -a $BUNDLER -f "powerjoular-$BUNDLER-$OUTPUT_FILE" &
+echo "Successfully started powerspy..."
+
+PID=$(sudo docker inspect --format '{{.State.Pid}}' "$BUNDLER")
+
+powerjoular -p "$PID" -f "powerjoular-$OUTPUT_FILE" > /dev/null 2>&1 &
 powerjoular_pid="$!" 
 echo "$powerjoular_pid" >> pids.txt
 
+echo "Successfully started powerjoular..."
