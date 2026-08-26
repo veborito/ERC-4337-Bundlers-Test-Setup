@@ -8,13 +8,13 @@ import fs from "fs";
 // -----------------------------
 // Configuration
 // -----------------------------
-const CHAIN_RPC = "http://127.0.0.1:8545";     // Anvil
-const BUNDLER_RPC = "http://127.0.0.1:3000";   // Alto bundler
+const CHAIN_RPC = "http://172.28.30.238:8545";     // Anvil 
+const BUNDLER_RPC = "http://172.28.11.252:3000";   // Alto bundler
 const CONFIRMED_BLOCKS_LOG_FILE = "./confirmed_blocks.csv";
 
 const ENTRYPOINT = {
-  address: "0x5FbDB2315678afecb367f032d93F642f64180aa3" as `0x${string}`,
-  version: "0.7" as const
+  address: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789" as `0x${string}`,
+  version: "0.6" as const
 };
 
 // Test Configs:
@@ -86,7 +86,7 @@ const SIMPLE_ACCOUNT_OWNER_KEYS: `0x${string}`[] = [
     "0x2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6"
 ];
 
-const ERC20_ADDRESS = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0" as `0x${string}`;
+const ERC20_ADDRESS = "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82" as `0x${string}`;
 
 function loadSimpleAccountAddresses(
   filePath: string,
@@ -169,8 +169,8 @@ async function runRound(
           callGasLimit: 300_000n,
           verificationGasLimit: 150_000n,
           preVerificationGas: 150_000n,
-          maxPriorityFeePerGas: 10n,
-          maxFeePerGas: 30n,
+          maxPriorityFeePerGas: 1_000_000_000n,
+          maxFeePerGas: 1_000_000_000n,
         });
 
         console.log(
