@@ -4,6 +4,8 @@ set -euo pipefail
 
 while read line; do
 	kill "$line"
-done < output/pids.txt
+done < pids.txt
 
 sudo docker stop $(sudo docker ps -a -q)
+
+rm pids.txt
