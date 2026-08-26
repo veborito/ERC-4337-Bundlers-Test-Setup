@@ -8,7 +8,6 @@ sudo docker rm -f anvil >/dev/null 2>&1 || true
 ANVIL_ID=$(
   sudo docker run --rm -d \
     --name anvil \
-    --network aa-exp \
     -v ~/powerexp/state/state.json:/var/lib/anvil/state.json \
     -v ~/powerexp/dump/state.json:/var/lib/anvil/dump/state.json \
     -p 8545:8545 \
