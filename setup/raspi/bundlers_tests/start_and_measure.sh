@@ -25,15 +25,17 @@ cd .. && source .venv/bin/activate
 
 ./powerspy.py -i 1 -f "./bundlers_tests/output/powerspy-$OUTPUT_FILE.csv" "$MAC_ADDRESS" > /dev/null 2>&1 &
 powerspy_pid="$!" 
-deactivate && cd bundlers_tests/output
+deactivate && cd bundlers_tests
 echo "$powerspy_pid" >> pids.txt
 
 echo "Successfully started powerspy..."
 
 PID=$(sudo docker inspect --format '{{.State.Pid}}' "$BUNDLER")
 
+cd output
 powerjoular -p "$PID" -f "powerjoular-$OUTPUT_FILE" > /dev/null 2>&1 &
 powerjoular_pid="$!" 
-echo "$powerjoular_pid" >> pids.txt
+echo "$powerjoular_pid" >> ../pids.txt
 
 echo "Successfully started powerjoular..."
+
