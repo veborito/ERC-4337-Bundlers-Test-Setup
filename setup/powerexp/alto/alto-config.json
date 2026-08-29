@@ -7,8 +7,8 @@
 	 "entrypoints": "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
 	 "safe-mode": false,
 	 "enforce-unique-senders-per-bundle": false,
-	 "max-gas-per-bundle": "1000000000",
-	 "fixed-gas-limit-for-estimation": "1000000000",
+	 "max-gas-per-bundle": "30000000",
+	 "fixed-gas-limit-for-estimation": "30000000",
 	 "bundler-initial-comission": "0",
 	 "block-time": 12000,
 	 "gas-price-bump": "1"
