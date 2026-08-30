@@ -161,17 +161,23 @@ async function runRound(
     const account = simpleAccounts[i];
     const calldata = calldatas[i];
 
+    // Let bundler estimate the gas for this UserOperation
+    const gas = await bundlerClient.estimateUserOperationGas({ 
+      account,
+      calls: [{ to: ERC20_ADDRESS, value: 0n, data: calldata }],
+    })
+
     // create the send promise
     const promise = (async () => {
       try {
         const userOpHash = await bundlerClient.sendUserOperation({
           account,
           calls: [{ to: ERC20_ADDRESS, value: 0n, data: calldata }],
-          callGasLimit: 80_000n,
-          verificationGasLimit: 100_000n,
-          preVerificationGas: 60_000n,
-          maxPriorityFeePerGas: 1_000_000_000n,
-          maxFeePerGas: 1_000_000_000n,
+          callGasLimit: gas.callGasLimit,
+          verificationGasLimit: gas.verificationGasLimit,
+          preVerificationGas: gas.preVerificationGas,
+          maxPriorityFeePerGas: 10n,
+          maxFeePerGas: 30n,
         });
 
         console.log(
