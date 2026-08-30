@@ -38,9 +38,9 @@ ssh "$BUNDLER_MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts/raspi && ./sta
 
 echo "everything started smoothly..."
 
-sleep 5
+sleep 40
 
-cd ~/client/dist && node transferUserOpRoundsThrottled.js "$ROUNDS_TOTAL" "$SCA_NUMBER" "$THROTTLE_TIME" "$BLOCK_TIME"
+cd ~/ERC-4337-Bundlers-Test-Setup/client/dist && node transferUserOpRoundsThrottled.js "$ROUNDS_TOTAL" "$SCA_NUMBER" "$THROTTLE_TIME" "$BLOCK_TIME"
 
 scp confirmed_blocks.csv "$NODE_MACHINE":~/ERC-4337-Bundlers-Test-Setup/powerexp/results/
 
