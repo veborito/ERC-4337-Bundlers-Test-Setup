@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-if (( $# != 2 )); then
+if (( $# != 4 )); then
   echo "Usage: $0 [MACHINE] [BUNDLER_MACHINE] [MAC_ADDRESS] [BUNDLER: optional]" >&2
   exit 1
 fi

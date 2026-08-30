@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # change this thing with getops and parameter extension
-if (($# < 8 || $# > 9)); then
+if (($# < 3 || $# > 4)); then
 	echo "Usage: $0 [NODE_MACHINE] [BUNDLER_MACHINE] [MAC_ADDRESS] [BUNDLER: optional]" >&2
 	exit 1
 fi
