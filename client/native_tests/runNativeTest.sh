@@ -14,9 +14,10 @@ SCA_NUMBER="$4"
 THROTTLE_TIME="$5"
 BLOCK_TIME="$6"
 
-ssh "$MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts/native && ./start_native.sh $OUTPUT_FILE $BLOCK_TIME"
+cd ~/ERC-4337-Bundlers-Test-Setup/client/
+npx tsc -p ./tsconfig.json
 
-npx tsc -p ~/ERC-4337-Bundlers-Test-Setup/client/tsconfig.json
+ssh "$MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts/native && ./start_native.sh $OUTPUT_FILE $BLOCK_TIME"
 
 cd ~/ERC-4337-Bundlers-Test-Setup/client/dist && node transferUserOpRoundsThrottled.js "$ROUNDS_TOTAL" "$SCA_NUMBER" "$THROTTLE_TIME" "$BLOCK_TIME"
 
