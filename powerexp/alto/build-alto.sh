@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+: '
+This build is more robust than the previous one found on the base 
+repository. Image size shrinked from ~3.6GB to ~1.9GB. 
+'
+
 set -euo pipefail
 
 git clone https://github.com/pimlicolabs/alto
