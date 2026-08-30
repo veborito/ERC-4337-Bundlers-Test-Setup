@@ -13,7 +13,6 @@ fi
 NODE_MACHINE="$1"
 BUNDLER_MACHINE="$2"
 OUTPUT_FILE="$3"
-
 ROUNDS_TOTAL="$4"
 SCA_NUMBER="$5"
 THROTTLE_TIME="$6"
@@ -34,7 +33,7 @@ fi
 
 ssh "$NODE_MACHINE" 'cd ~/ERC-4337-Bundlers-Test-Setup/scripts/containers && ./start_node_container.sh && cd ~/ERC-4337-Bundlers-Test-Setup/scripts/power/powerAPI && ./measure.sh'
 
-ssh "$BUNDLER_MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts/raspi && ./start_and_measure.sh $MAC_ADDRESS raspi-$BUNDLER-r$ROUNDS_TOTAL-s$SCA_NUMBER-t$THROTTLE_TIME-b$BLOCK_TIME $BUNDLER"
+ssh "$BUNDLER_MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts/raspi && ./start_and_measure.sh $MAC_ADDRESS $OUTPUT_FILE $BUNDLER"
 
 echo "everything started smoothly..."
 
