@@ -23,7 +23,7 @@ In your client machine. Go into the `client` folder and run `npm install`
 
 ### EVM node
 
-First launch the `scripts/powerAPI/smartwatts-setup.sh` script to pull the `hwpc-sensor` image and install smartwatts requirements.
+First run the `scripts/power/powerAPI/smartwatts-setup.sh` script to pull the `hwpc-sensor` image and install smartwatts requirements.
 
 Build your EVM client. In this setup we use Anvil. Go into `powerexp/anvil/` and run `docker build --no-cache --progress=plain -t anvil-debian-slim:local -f AnvilDockerfile .`
 
