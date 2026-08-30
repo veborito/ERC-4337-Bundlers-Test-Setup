@@ -41,8 +41,7 @@ echo "Successfully started powerspy..."
 PID=$(sudo docker inspect --format '{{.State.Pid}}' "$BUNDLER")
 
 cd ~/ERC-4337-Bundlers-Test-Setup/powerexp/raspi/output
-powerjoular -p "$PID" -f "powerjoular-$OUTPUT_FILE" >/dev/null 2>&1 &
-powerjoular_pid="$!"
-echo "$powerjoular_pid" >> ../pids.txt
+# no need to add powerjoular PID to kill since its stop with the process its measuring...
+powerjoular -p "$PID" -f "powerjoular-$OUTPUT_FILE" >/dev/null 2>&1 & 
 
 echo "Successfully started powerjoular..."
