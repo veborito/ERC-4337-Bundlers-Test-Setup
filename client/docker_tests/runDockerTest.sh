@@ -14,7 +14,7 @@ SCA_NUMBER="$4"
 THROTTLE_TIME="$5"
 BLOCK_TIME="$6"
 
-npx tsc -p ~/client/tsconfig.json
+npx tsc -p ~/ERC-4337-Bundlers-Test-Setup/client/tsconfig.json
 
 if (($BLOCK_TIME == 6)); then
 	ssh "$MACHINE" 'cd ~/ERC-4337-Bundlers-Test-Setup/powerexp/anvil && sudo docker build --no-cache --progress=plain -t anvil-debian-slim:local -f AnvilDockerfile-6 .'

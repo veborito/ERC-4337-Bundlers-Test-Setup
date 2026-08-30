@@ -7,6 +7,9 @@ if (($# < 8 || $# > 9)); then
 	exit 1
 fi
 
+# Example usage:
+#   ./runRaspiTests.sh 172.28.30.238 172.28.11.252 test 20 10 10 12 00:08:99:4D:F8:F0 rundler
+
 NODE_MACHINE="$1"
 BUNDLER_MACHINE="$2"
 OUTPUT_FILE="$3"

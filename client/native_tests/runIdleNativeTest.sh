@@ -9,7 +9,7 @@ fi
 MACHINE="$1"
 PROCESSOR="$2"
 
-ssh "$MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts && ./native/start_native.sh test-9-$PROCESSOR-idle 12"
+ssh "$MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts/native && .start_native.sh test-9-$PROCESSOR-idle 12"
 
 #sleep 500
 
