@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-if [ -d ~/ERC-4337-Bundlers-Test-Setup/powerexp/dump ]; then
-	sudo rm -rf ~/ERC-4337-Bundlers-Test-Setup/powerexp/dump
+if [ ! -d ~/ERC-4337-Bundlers-Test-Setup/powerexp/dump ]; then
+	sudo mkdir ~/ERC-4337-Bundlers-Test-Setup/powerexp/dump
 fi
 
 OUT_FILE="${1:-~/ERC-4337-Bundlers-Test-Setup/powerexp/container_ids.txt}"
