@@ -25,15 +25,16 @@ echo "Successfully started $BUNDLER..."
 
 source ../powerexp/raspi/.venv/bin/activate
 
-./power/hardware/powerspy.py -i 1 -f "../../powerexp/raspi/output/powerspy-$OUTPUT_FILE.csv" "$MAC_ADDRESS" >/dev/null 2>&1 &
+./power/hardware/powerspy.py -i 1 -f "../powerexp/raspi/output/powerspy-$OUTPUT_FILE.csv" "$MAC_ADDRESS" >/dev/null 2>&1 &
 powerspy_pid="$!"
+
 deactivate
 
-if [ -d ~/ERC-4337-Bundlers-Test-Setup/powerexp/raspi/pids.txt ]; then
+if [ -f ~/ERC-4337-Bundlers-Test-Setup/powerexp/raspi/pids.txt ]; then
 	rm ~/ERC-4337-Bundlers-Test-Setup/powerexp/raspi/pids.txt
 fi
 
-echo "$powerspy_pid" >>pids.txt
+echo "$powerspy_pid" >> ../powerexp/raspi/pids.txt
 
 echo "Successfully started powerspy..."
 
@@ -42,6 +43,6 @@ PID=$(sudo docker inspect --format '{{.State.Pid}}' "$BUNDLER")
 cd ~/ERC-4337-Bundlers-Test-Setup/powerexp/raspi/output
 powerjoular -p "$PID" -f "powerjoular-$OUTPUT_FILE" >/dev/null 2>&1 &
 powerjoular_pid="$!"
-echo "$powerjoular_pid" >>../pids.txt
+echo "$powerjoular_pid" >> ../pids.txt
 
 echo "Successfully started powerjoular..."
