@@ -44,7 +44,7 @@ cd ~/client/dist && node transferUserOpRoundsThrottled.js "$ROUNDS_TOTAL" "$SCA_
 
 scp confirmed_blocks.csv "$NODE_MACHINE":~/ERC-4337-Bundlers-Test-Setup/powerexp/results/
 
-ssh "$NODE_MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/powerexp && sudo mv results/confirmed_blocks.csv results/sensor_output/ && ./stop_node_container.sh && cd results && ./process.sh $OUTPUT_FILE docker"
+ssh "$NODE_MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/powerexp && sudo mv results/confirmed_blocks.csv results/sensor_output/ && cd ~/ERC-4337-Bundlers-Test-Setup/scripts && ./containers/stop_node_container.sh && ./power/powerAPI/process.sh $OUTPUT_FILE raspi"
 
 ssh "$BUNDLER_MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts/raspi && ./stop_all.sh"
 

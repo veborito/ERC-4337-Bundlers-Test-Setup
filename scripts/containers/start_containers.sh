@@ -6,7 +6,7 @@ if [ ! -d ~/ERC-4337-Bundlers-Test-Setup/powerexp/dump ]; then
 	mkdir ~/ERC-4337-Bundlers-Test-Setup/powerexp/dump
 fi
 
-OUT_FILE="${1:-~/ERC-4337-Bundlers-Test-Setup/powerexp/container_ids.txt}"
+OUT_FILE="${1:-container_ids.txt}"
 
 # Optional cleanup if old containers with the same names exist
 sudo docker rm -f anvil alto >/dev/null 2>&1 || true
