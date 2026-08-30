@@ -51,10 +51,10 @@ Some bundlers only support a few/all/one of the entrypoints present in the table
 ### Alto
 
 To build alto's image:
-Go into `setup/powerexp/alto` folder and build the image using:
+Go into `setup/powerexp/alto` folder and build the image:
 
 ```bash
-docker build --no-cache --progress=plain -t alto-debian-slim:local -f AltoDockerfile .
+./build-alto.sh
 ```
 
 If you need to change configuration details. Check `setup/powerexp/alto/alto-config.json`
