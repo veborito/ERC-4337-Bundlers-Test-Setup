@@ -8,6 +8,8 @@ To install dependecies run the `dependencies.sh` script
 
 ## [Powerspy](https://github.com/patrickmarlier/powerspy.py)
 
+Go into `powerexp/raspi` folder and run:
+
 ```bash
 python3 -m venv .venv # Create a python env 
 source .venv/bin/activate # Activate python env
@@ -88,6 +90,8 @@ If your SCAs were already deployed with your previous simpleAccountFactory contr
 
 >[!WARNING]
 > This should not be needed if you use the provided setup.
+> For anvil the state.json file provided in `powerexp/state` should include all
+> the contracts and accounts needed to run the experiment.
 
 On your EVM node (anvil, geth,...).
 The easiest way is to clone the official [account-abstraction repository](https://github.com/eth-infinitism/account-abstraction.git).
