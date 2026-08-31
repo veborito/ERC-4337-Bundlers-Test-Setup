@@ -41,27 +41,55 @@ Check the [docs](./docs/Raspberry-pi-setup.md#raspberry-pi-setup) on raspberry p
 
 ---
 
-You final setup
+### Architecture diagram
 
-[dessin du setup]
+```mermaid
+flowchart LR
+    %% Subgraphs
+    subgraph ClientNode ["Client Node"]
+        APP["<b>Client</b><br/>"]
+    end
+
+   
+    subgraph RPiNode ["Raspberry Pi Node"]
+        BUNDLER["<b>ERC-4337 Bundler</b><br/><code>Port :3000</code><br/><small>(E.g. Alto, Rundler, Silius, ...)</small>"]
+    end
+    subgraph ServerNode ["Server Node"]
+        ANVIL["<b>Anvil EVM Node</b><br/><code>Port :8545</code>"]
+    end
+
+    %% Flow Connections
+    APP --> BUNDLER
+    BUNDLER --> ANVIL
+    APP <--> ANVIL
+```
+
+Your final setup should look like this.
+
+---
 
 ## Testing
 
-Once everything is setup
+Once everything is setup.
 
 In `client/raspi_tests` on your client machine, you will find all the tests scripts needed to reproduce the experiment.
 
 You can run single tests with:
 
 ```bash
-./runRaspiTests.sh evm_node bundler_node powerspy_mac_address output_file 20 10 10 12 00:08:99:4D:F8:F0 rundler powerspy
+./runRaspiTest.sh [NODE_MACHINE] [BUNDLER_MACHINE] [OUTPUT_FILE] [ROUNDS_TOTAL] [SCA_NUMBER] [THROTTLE_TIME] [BLOCK_TIME] [MAC_ADDRESS: with powerspy] [BUNDLER] [POWER_TOOL]
+# examples
+./runRaspiTest.sh 172.28.30.238 172.28.11.252 test 20 10 10 12 00:08:99:4D:F8:F0 rundler powerspy
+./runRaspiTest.sh machine.maas 172.28.11.252 test 20 10 10 12 alto powerjoular # mac address not needed for powerjoular
 
-./runRaspiTests.sh evm_node bundler_node output_file 20 10 10 12 alto powerjoular
 ```
 
-To run a batch of tests:
+Or run a batch of tests:
 
 ```bash
-./runAllRaspiTests.sh evm_node bundler_node powerspy_mac_address bundler powerspy
-./runAllRaspiTests.sh evm_node bundler_node bundler powerjoular # mac_address_not_needed
+./runAllRaspiTests.sh [MACHINE] [BUNDLER_MACHINE] [MAC_ADDRESS: only with powerspy] [BUNDLER] [POWER_TOOL]
+# examples
+./runAllRaspiTests.sh 172.28.30.222 172.38.11.232 test 00:08:99:4D:F8:F0 rundler powerspy
+./runAllRaspiTests.sh machine.ca 172.38.11.232 test alto powerjoular # mac address not needed for powerjoular
+
 ```

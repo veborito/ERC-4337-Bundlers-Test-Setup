@@ -2,8 +2,8 @@
 set -euo pipefail
 
 # Example usage:
-#   ./runRaspiTests.sh 172.28.30.238 172.28.11.252 test 20 10 10 12 00:08:99:4D:F8:F0 rundler powerspy
-#   ./runRaspiTests.sh rigi-8.maas 172.28.11.252 test 20 10 10 12 alto powerjoular
+#   ./runRaspiTest.sh 172.28.30.238 172.28.11.252 test 20 10 10 12 00:08:99:4D:F8:F0 rundler powerspy
+#   ./runRaspiTest.sh rigi-8.maas 172.28.11.252 test 20 10 10 12 alto powerjoular
 
 # TODO: use getops and parameter extension
 if (( $# != 9 && $# != 10)); then
