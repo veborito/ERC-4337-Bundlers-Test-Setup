@@ -2,12 +2,12 @@
 
 set -euo pipefail
 
-if (($# < 4 )); then
-	echo "Usage: $0 [MAC_ADDRESS] [OUTPUT_FILE] [BUNDLER] [POWER_TOOL]" >&2
+if (( $# >= 3 || $# <= 4 )); then
+	echo "Usage: $0 [MAC_ADDRESS: only with powerspy] [OUTPUT_FILE] [BUNDLER] [POWER_TOOL]" >&2
 
 fi
 
-MAC_ADDRESS="$1"
+MAC_ADDRESS=${1:-none}
 OUTPUT_FILE="$2"
 BUNDLER="$3"
 POWER_TOOL="$4"
