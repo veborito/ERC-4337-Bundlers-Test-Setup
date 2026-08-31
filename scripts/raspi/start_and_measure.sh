@@ -2,6 +2,11 @@
 
 set -euo pipefail
 
+if (($# < 4 )); then
+	echo "Usage: $0 [MAC_ADDRESS] [OUTPUT_FILE] [BUNDLER] [POWER_TOOL]" >&2
+
+fi
+
 MAC_ADDRESS="$1"
 OUTPUT_FILE="$2"
 BUNDLER="$3"
@@ -28,7 +33,7 @@ if [ -f ~/ERC-4337-Bundlers-Test-Setup/powerexp/raspi/pids.txt ]; then
 	rm ~/ERC-4337-Bundlers-Test-Setup/powerexp/raspi/pids.txt
 fi
 
-if [["$POWER_TOOL" == "powerspy"]]
+if [[ "$POWER_TOOL" == "powerspy" ]]; then
 	source ../powerexp/raspi/.venv/bin/activate
 	./power/hardware/powerspy.py -i 1 -f "../powerexp/raspi/output/powerspy-$OUTPUT_FILE.csv" "$MAC_ADDRESS" >/dev/null 2>&1 &
 	powerspy_pid="$!"
