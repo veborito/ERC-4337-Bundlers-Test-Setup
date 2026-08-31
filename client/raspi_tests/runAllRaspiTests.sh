@@ -36,7 +36,7 @@ for config in "${TEST_CONFIGS[@]}"; do
 	echo "Running Test #$num"
 	echo "Rounds: $rounds | SCA: $sca | Throttle: $throttle | Block Time: ${block_time}s"
 	echo "=========================================="
-	./runRaspiTest.sh "$MACHINE" "$BUNDLER_MACHINE" "test-${num}-raspi-r${rounds}-s${sca}-t${throttle}-b${block_time}" "$rounds" "$sca" "$throttle" "$block_time" "$MAC_ADDRESS" "$BUNDLER"
+	./runRaspiTest.sh "$MACHINE" "$BUNDLER_MACHINE" "test-${num}-raspi-$BUNDLER-r${rounds}-s${sca}-t${throttle}-b${block_time}" "$rounds" "$sca" "$throttle" "$block_time" "$MAC_ADDRESS" "$BUNDLER"
 	((num++))
 	sleep 1
 done
