@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-if (( $# >= 3 || $# <= 4 )); then
+if (( $# != 3 && $# != 4 )); then
 	echo "Usage: $0 [MAC_ADDRESS: only with powerspy] [OUTPUT_FILE] [BUNDLER] [POWER_TOOL]" >&2
 
 fi

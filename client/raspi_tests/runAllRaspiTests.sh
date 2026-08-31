@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-if (( $# != 5 )); then
+if (( $# != 4 && $# != 5 )); then
   echo "Usage: $0 [MACHINE] [BUNDLER_MACHINE] [MAC_ADDRESS: only with powerspy] [BUNDLER] [POWER_TOOL]" >&2
   exit 1
 fi

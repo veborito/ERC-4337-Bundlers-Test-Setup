@@ -6,7 +6,7 @@ set -euo pipefail
 #   ./runRaspiTests.sh rigi-8.maas 172.28.11.252 test 20 10 10 12 alto powerjoular
 
 # TODO: use getops and parameter extension
-if (( $# >= 9 || $# <= 10)); then
+if (( $# != 9 && $# != 10)); then
 	echo "Usage: $0 [NODE_MACHINE] [BUNDLER_MACHINE] [OUTPUT_FILE] [ROUNDS_TOTAL] [SCA_NUMBER] [THROTTLE_TIME] [BLOCK_TIME] [MAC_ADDRESS: with powerspy] [BUNDLER] [POWER_TOOL]" >&2
 	exit 1
 fi
@@ -36,7 +36,7 @@ fi
 
 ssh "$NODE_MACHINE" 'cd ~/ERC-4337-Bundlers-Test-Setup/scripts/containers && ./start_node_container.sh && cd ~/ERC-4337-Bundlers-Test-Setup/scripts/power/powerAPI && ./measure.sh'
 
-ssh "$BUNDLER_MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts/raspi && ./start_and_measure.sh $MAC_ADDRESS $OUTPUT_FILE $BUNDLER $POWER_TOOL"
+ssh "$BUNDLER_MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts/raspi && ./start_and_measure.sh "$MAC_ADDRESS" "$OUTPUT_FILE" "$BUNDLER" "$POWER_TOOL"
 
 echo "everything started smoothly..."
 
