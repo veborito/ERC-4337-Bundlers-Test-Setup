@@ -21,7 +21,7 @@ THROTTLE_TIME="$6"
 BLOCK_TIME="$7"
 MAC_ADDRESS=${8:-none}
 BUNDLER="$9"
-POWER_TOOL="$10"
+POWER_TOOL=${10}
 
 cd ~/ERC-4337-Bundlers-Test-Setup/client/
 npx tsc -p ./tsconfig.json
@@ -36,7 +36,7 @@ fi
 
 ssh "$NODE_MACHINE" 'cd ~/ERC-4337-Bundlers-Test-Setup/scripts/containers && ./start_node_container.sh && cd ~/ERC-4337-Bundlers-Test-Setup/scripts/power/powerAPI && ./measure.sh'
 
-ssh "$BUNDLER_MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts/raspi && ./start_and_measure.sh "$MAC_ADDRESS" "$OUTPUT_FILE" "$BUNDLER" "$POWER_TOOL"
+ssh "$BUNDLER_MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts/raspi && ./start_and_measure.sh $MAC_ADDRESS $OUTPUT_FILE $BUNDLER $POWER_TOOL"
 
 echo "everything started smoothly..."
 
