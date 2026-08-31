@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# change this thing with getops and parameter extension
-if (($# < 8 || $# > 9)); then
-	echo "Usage: $0 [NODE_MACHINE] [BUNDLER_MACHINE] [OUTPUT_FILE] [ROUNDS_TOTAL] [SCA_NUMBER] [THROTTLE_TIME] [BLOCK_TIME] [MAC_ADDRESS] [BUNDLER: optional]" >&2
+# Example usage:
+#   ./runRaspiTests.sh 172.28.30.238 172.28.11.252 test 20 10 10 12 00:08:99:4D:F8:F0 rundler powerspy
+#   ./runRaspiTests.sh rigi-8.maas 172.28.11.252 test 20 10 10 12 00:08:99:4D:F8:F0 alto powerjoular
+
+# TODO: use getops and parameter extension
+if (($# < 9 || $# > 10)); then
+	echo "Usage: $0 [NODE_MACHINE] [BUNDLER_MACHINE] [OUTPUT_FILE] [ROUNDS_TOTAL] [SCA_NUMBER] [THROTTLE_TIME] [BLOCK_TIME] [MAC_ADDRESS] [BUNDLER: optional] [POWER_TOOL]" >&2
 	exit 1
 fi
 
-# Example usage:
-#   ./runRaspiTests.sh 172.28.30.238 172.28.11.252 test 20 10 10 12 00:08:99:4D:F8:F0 rundler
 
 NODE_MACHINE="$1"
 BUNDLER_MACHINE="$2"
@@ -19,6 +21,7 @@ THROTTLE_TIME="$6"
 BLOCK_TIME="$7"
 MAC_ADDRESS=$8
 BUNDLER=${9:-alto}
+POWER_TOOL="$10"
 
 cd ~/ERC-4337-Bundlers-Test-Setup/client/
 npx tsc -p ./tsconfig.json
@@ -33,7 +36,7 @@ fi
 
 ssh "$NODE_MACHINE" 'cd ~/ERC-4337-Bundlers-Test-Setup/scripts/containers && ./start_node_container.sh && cd ~/ERC-4337-Bundlers-Test-Setup/scripts/power/powerAPI && ./measure.sh'
 
-ssh "$BUNDLER_MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts/raspi && ./start_and_measure.sh $MAC_ADDRESS $OUTPUT_FILE $BUNDLER"
+ssh "$BUNDLER_MACHINE" "cd ~/ERC-4337-Bundlers-Test-Setup/scripts/raspi && ./start_and_measure.sh $MAC_ADDRESS $OUTPUT_FILE $BUNDLER $POWER_TOOL"
 
 echo "everything started smoothly..."
 
