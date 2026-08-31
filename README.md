@@ -4,8 +4,8 @@
 
 Base repository : <https://github.com/eonica/FastTrack-ERC-4337-Experimental-Bundler-Deployment>
 
-This repository adds explanations on the Rasberry Pi power consumption measurement setup.
-For this experimental setup we used PowerJoular and PowerSpy.
+This repository adds explanations on the Raspberry Pi power consumption measurement setup.
+For this experimental setup we used [PowerJoular](https://github.com/joular/powerjoular) and [PowerSpy](https://github.com/patrickmarlier/powerspy.py).
 
 ## Setup Guidelines
 
@@ -29,14 +29,33 @@ Build your EVM client. In this setup we use Anvil. Go into `powerexp/anvil/` and
 
 ---
 
-### [Raspberry Pi setup](./docs/Raspberry-pi-setup.md#raspberry-pi-setup)
+### Raspberry Pi setup
 
 Check the [docs](./docs/Raspberry-pi-setup.md#raspberry-pi-setup) on raspberry pi for the guidelines and requirements.
 
 ---
 
+You final setup
+
+[dessin du setup]
+
 ## Testing
 
 Once everything is setup
 
-For more informations on the single node setup (EVM + bundler) refer to [this experimental setup](https://github.com/eonica/FastTrack-ERC-4337-Experimental-Bundler-Deployment).
+In `client/raspi_tests` on your client machine, you will find all the tests scripts needed to reproduce the experiment.
+
+You can run single tests with:
+
+```bash
+./runRaspiTests.sh evm_node bundler_node powerspy_mac_address output_file 20 10 10 12 00:08:99:4D:F8:F0 rundler powerspy
+
+./runRaspiTests.sh evm_node bundler_node output_file 20 10 10 12 alto powerjoular
+```
+
+To run a batch of tests:
+
+```bash
+./runAllRaspiTests.sh evm_node bundler_node powerspy_mac_address bundler powerspy
+./runAllRaspiTests.sh evm_node bundler_node bundler powerjoular # mac_address_not_needed
+```
