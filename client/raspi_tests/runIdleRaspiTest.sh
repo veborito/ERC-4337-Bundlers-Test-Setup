@@ -2,14 +2,14 @@
 set -euo pipefail
 
 # change this thing with getops and parameter extension
-if (($# > 5)); then
-	echo "Usage: $0 [NODE_MACHINE] [BUNDLER_MACHINE] [MAC_ADDRESS] [BUNDLER] [POWER_TOOL]" >&2
+if (( $# >= 4 || $# <= 5)); then
+	echo "Usage: $0 [NODE_MACHINE] [BUNDLER_MACHINE] [MAC_ADDRESS: only with powerspy] [BUNDLER] [POWER_TOOL]" >&2
 	exit 1
 fi
 
 NODE_MACHINE="$1"
 BUNDLER_MACHINE="$2"
-MAC_ADDRESS="$3"
+MAC_ADDRESS=${3:-none}
 BUNDLER="$4"
 POWER_TOOL="$5"
 
