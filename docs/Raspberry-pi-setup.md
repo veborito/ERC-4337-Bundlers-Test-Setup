@@ -82,9 +82,15 @@ As explained on [rundler repository](https://github.com/alchemyplatform/rundler/
 Thus, if your entrypoint has another address it won't work :)
 
 If your SCAs were already deployed with your previous simpleAccountFactory contract. You'll need to redeploy every SCA with the new simpleAccountFactory linked to the new entrypoint. Otherwise it won't work :D
- 
+
 >[!TIP]
 >If you're facing issues with this, deploy a new EVM node from scratch it should be easier to set up.
+
+This params are expected in your userOps:
+maxPriorityFeePerGas: 1000000000n, //rundler expects 1 gwei
+maxFeePerGas: 1000000000n, //rundler expects 1 gwei
+
+You need to adapt this when running rundler.
 
 ## Deploying needed contracts (optional)
 

@@ -3,15 +3,15 @@
 set -euo pipefail
 
 if (( $# != 4 && $# != 5 )); then
-  echo "Usage: $0 [MACHINE] [BUNDLER_MACHINE] [MAC_ADDRESS: only with powerspy] [BUNDLER] [POWER_TOOL]" >&2
+  echo "Usage: $0 [MACHINE] [BUNDLER_MACHINE] [BUNDLER] [POWER_TOOL] [MAC_ADDRESS: only with powerspy]" >&2
   exit 1
 fi
 
 MACHINE="$1"
 BUNDLER_MACHINE="$2"
-MAC_ADDRESS=${3:-none}
-BUNDLER=$4
-POWER_TOOL="$5"
+BUNDLER=$3
+POWER_TOOL="$4"
+MAC_ADDRESS=${5:-none}
 
 TEST_CONFIGS=(
     "50:100:25:12"

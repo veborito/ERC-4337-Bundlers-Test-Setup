@@ -176,8 +176,8 @@ async function runRound(
           callGasLimit: gas.callGasLimit,
           verificationGasLimit: gas.verificationGasLimit,
           preVerificationGas: gas.preVerificationGas,
-          maxPriorityFeePerGas: 10n,
-          maxFeePerGas: 30n,
+          maxPriorityFeePerGas: 10n, // 1000000000n rundler expects 1 gwei
+          maxFeePerGas: 30n, // 1000000000n rundler expects 1 gwei
         });
 
         console.log(

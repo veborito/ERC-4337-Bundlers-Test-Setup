@@ -87,9 +87,9 @@ You can run single tests with:
 Or run a batch of tests:
 
 ```bash
-./runAllRaspiTests.sh [MACHINE] [BUNDLER_MACHINE] [MAC_ADDRESS: only with powerspy] [BUNDLER] [POWER_TOOL]
+./runAllRaspiTests.sh [MACHINE] [BUNDLER_MACHINE] [BUNDLER] [POWER_TOOL] [MAC_ADDRESS: only with powerspy]
 # examples
-./runAllRaspiTests.sh 172.28.30.222 172.38.11.232 test 00:08:99:4D:F8:F0 rundler powerspy
+./runAllRaspiTests.sh 172.28.30.222 172.38.11.232 test rundler powerspy  00:08:99:4D:F8:F0 
 ./runAllRaspiTests.sh machine.ca 172.38.11.232 test alto powerjoular # mac address not needed for powerjoular
 
 ```

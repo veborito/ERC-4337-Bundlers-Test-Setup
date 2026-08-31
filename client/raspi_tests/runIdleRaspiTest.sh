@@ -3,15 +3,15 @@ set -euo pipefail
 
 # change this thing with getops and parameter extension
 if (( $# != 4 && $# != 5)); then
-	echo "Usage: $0 [NODE_MACHINE] [BUNDLER_MACHINE] [MAC_ADDRESS: only with powerspy] [BUNDLER] [POWER_TOOL]" >&2
+	echo "Usage: $0 [NODE_MACHINE] [BUNDLER_MACHINE] [BUNDLER] [POWER_TOOL] [MAC_ADDRESS: only with powerspy]" >&2
 	exit 1
 fi
 
 NODE_MACHINE="$1"
 BUNDLER_MACHINE="$2"
-MAC_ADDRESS=${3:-none}
-BUNDLER="$4"
-POWER_TOOL="$5"
+BUNDLER="$3"
+POWER_TOOL="$4"
+MAC_ADDRESS=${5:-none}
 
 ssh "$NODE_MACHINE" 'cd ~/ERC-4337-Bundlers-Test-Setup/scripts/containers && ./start_node_container.sh && cd ~/ERC-4337-Bundlers-Test-Setup/scripts/power/powerAPI && ./measure.sh'
 

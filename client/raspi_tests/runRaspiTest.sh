@@ -2,15 +2,14 @@
 set -euo pipefail
 
 # Example usage:
-#   ./runRaspiTest.sh 172.28.30.238 172.28.11.252 test 20 10 10 12 00:08:99:4D:F8:F0 rundler powerspy
+#   ./runRaspiTest.sh 172.28.30.238 172.28.11.252 test 20 10 10 12 rundler powerspy 00:08:99:4D:F8:F0 
 #   ./runRaspiTest.sh rigi-8.maas 172.28.11.252 test 20 10 10 12 alto powerjoular
 
 # TODO: use getops and parameter extension
 if (( $# != 9 && $# != 10)); then
-	echo "Usage: $0 [NODE_MACHINE] [BUNDLER_MACHINE] [OUTPUT_FILE] [ROUNDS_TOTAL] [SCA_NUMBER] [THROTTLE_TIME] [BLOCK_TIME] [MAC_ADDRESS: with powerspy] [BUNDLER] [POWER_TOOL]" >&2
+	echo "Usage: $0 [NODE_MACHINE] [BUNDLER_MACHINE] [OUTPUT_FILE] [ROUNDS_TOTAL] [SCA_NUMBER] [THROTTLE_TIME] [BLOCK_TIME] [BUNDLER] [POWER_TOOL] [MAC_ADDRESS: with powerspy]" >&2
 	exit 1
 fi
-
 
 NODE_MACHINE="$1"
 BUNDLER_MACHINE="$2"
@@ -19,9 +18,9 @@ ROUNDS_TOTAL="$4"
 SCA_NUMBER="$5"
 THROTTLE_TIME="$6"
 BLOCK_TIME="$7"
-MAC_ADDRESS=${8:-none}
-BUNDLER="$9"
-POWER_TOOL=${10}
+BUNDLER="$8"
+POWER_TOOL="$9"
+MAC_ADDRESS=${10:-none}
 
 cd ~/ERC-4337-Bundlers-Test-Setup/client/
 npx tsc -p ./tsconfig.json
