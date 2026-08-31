@@ -2,15 +2,16 @@
 
 set -euo pipefail
 
-if (( $# != 4 )); then
-  echo "Usage: $0 [MACHINE] [BUNDLER_MACHINE] [MAC_ADDRESS] [BUNDLER: optional]" >&2
+if (( $# != 5 )); then
+  echo "Usage: $0 [MACHINE] [BUNDLER_MACHINE] [MAC_ADDRESS] [BUNDLER] [POWER_TOOL]" >&2
   exit 1
 fi
 
 MACHINE="$1"
 BUNDLER_MACHINE="$2"
 MAC_ADDRESS="$3"
-BUNDLER=${4:-alto}
+BUNDLER=$4
+POWER_TOOL="$5"
 
 TEST_CONFIGS=(
     "50:100:25:12"
@@ -36,9 +37,9 @@ for config in "${TEST_CONFIGS[@]}"; do
 	echo "Running Test #$num"
 	echo "Rounds: $rounds | SCA: $sca | Throttle: $throttle | Block Time: ${block_time}s"
 	echo "=========================================="
-	./runRaspiTest.sh "$MACHINE" "$BUNDLER_MACHINE" "test-${num}-raspi-$BUNDLER-r${rounds}-s${sca}-t${throttle}-b${block_time}" "$rounds" "$sca" "$throttle" "$block_time" "$MAC_ADDRESS" "$BUNDLER"
+	./runRaspiTest.sh "$MACHINE" "$BUNDLER_MACHINE" "test-${num}-raspi-$BUNDLER-r${rounds}-s${sca}-t${throttle}-b${block_time}" "$rounds" "$sca" "$throttle" "$block_time" "$MAC_ADDRESS" "$BUNDLER" "$POWER_TOOL"
 	((num++))
 	sleep 1
 done
 
-./runIdleRaspiTest.sh "$MACHINE" "$BUNDLER_MACHINE" "$MAC_ADDRESS" "$BUNDLER"
+./runIdleRaspiTest.sh "$MACHINE" "$BUNDLER_MACHINE" "$MAC_ADDRESS" "$BUNDLER" "$POWER_TOOL"

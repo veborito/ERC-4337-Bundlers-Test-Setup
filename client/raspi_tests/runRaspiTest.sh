@@ -6,8 +6,8 @@ set -euo pipefail
 #   ./runRaspiTests.sh rigi-8.maas 172.28.11.252 test 20 10 10 12 00:08:99:4D:F8:F0 alto powerjoular
 
 # TODO: use getops and parameter extension
-if (($# < 9 || $# > 10)); then
-	echo "Usage: $0 [NODE_MACHINE] [BUNDLER_MACHINE] [OUTPUT_FILE] [ROUNDS_TOTAL] [SCA_NUMBER] [THROTTLE_TIME] [BLOCK_TIME] [MAC_ADDRESS] [BUNDLER: optional] [POWER_TOOL]" >&2
+if (($# != 10)); then
+	echo "Usage: $0 [NODE_MACHINE] [BUNDLER_MACHINE] [OUTPUT_FILE] [ROUNDS_TOTAL] [SCA_NUMBER] [THROTTLE_TIME] [BLOCK_TIME] [MAC_ADDRESS] [BUNDLER] [POWER_TOOL]" >&2
 	exit 1
 fi
 
@@ -20,7 +20,7 @@ SCA_NUMBER="$5"
 THROTTLE_TIME="$6"
 BLOCK_TIME="$7"
 MAC_ADDRESS=$8
-BUNDLER=${9:-alto}
+BUNDLER="$9"
 POWER_TOOL="$10"
 
 cd ~/ERC-4337-Bundlers-Test-Setup/client/
