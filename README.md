@@ -19,7 +19,13 @@ More details on the native execution [dependencies](./docs/Dependencies-native-s
 
 ### Client
 
-In your client machine. Go into the `client` folder and run `npm install`
+In your client machine. Go into the `client` folder and run:
+
+ ```bash
+ npm install
+ npm install typescript 
+ npm install --save-dev @types/node
+ ```
 
 ### EVM node
 
