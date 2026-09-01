@@ -52,7 +52,7 @@ flowchart LR
 
    
     subgraph RPiNode ["Raspberry Pi Node"]
-        BUNDLER["<b>ERC-4337 Bundler</b><br/><code>Port :3000</code><br/><small>(E.g. Alto, Rundler, Silius, ...)</small>"]
+        BUNDLER["<b>ERC-4337 Bundler</b><br/><code>Port :3000</code><br/><small>(E.g. Alto, Rundler, ...)</small>"]
     end
     subgraph ServerNode ["Server Node"]
         ANVIL["<b>Anvil EVM Node</b><br/><code>Port :8545</code>"]
